@@ -3,13 +3,23 @@
 <head>
 <meta charset="UTF-8">
 
-<input type="file" name="file" onchange="GEDCOM.fileSelect(this.files)"/>
-
 <script src="gedconvert.js"></script>
 
 <title>GEDCOM split screen</title>
-</head>
 
-<body></body>
+<body>
+<div id="controls" style="float:top;width:100%;background:#aaffd5"/>
+Select GED file:
+<input type="file" name="file"
+    onchange="GEDCOM.fileSelect(this.files,
+                                GEDCOM.transformCallback('content'))"/>
+<br/>
+Select Stylesheet:
+<input type="file" name="file" onchange="GEDCOM.stylesheetSelect(this.files)"/>
+</div>
+<div id="content"
+    style="float:top;width:100%;height:1000px;background:#ffcca2"/>
+</div>
+</body>
 
 </html>
