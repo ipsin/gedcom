@@ -1,3 +1,6 @@
+// Simple Rhino file that reads and transforms a GEDCOM file, dumping the
+// XML.
+
 function createDocument() {
   var dbf = javax.xml.parsers.DocumentBuilderFactory.newInstance();
   dbf.setNamespaceAware(false);
@@ -99,6 +102,6 @@ function readGed(doc, str) {
 }
 
 var doc = createDocument();
-var fileData = readFile('input.ged');
+var fileData = readFile('input2.ged');
 readGed(doc, fileData);
 dumpXml(doc);

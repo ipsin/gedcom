@@ -11,15 +11,14 @@
 <div id="controls" style="float:top;width:100%;background:#aaffd5"/>
 Select GED file:
 <input type="file" name="file"
-    onchange="GEDCOM.fileSelect(this.files,
-                                GEDCOM.transformCallback('content'))"/>
+    onchange="GEDCOM.fileSelect(
+        this.files, GEDCOM.transformCallback('content', 'status'))"/>
 <br/>
 Select Stylesheet:
 <input type="file" name="file" onchange="GEDCOM.stylesheetSelect(this.files)"/>
+<p id="status">Select a stylesheet, then select a GED file.</p>
 </div>
-<div id="content"
-    style="float:top;width:100%;height:1000px;background:#ffcca2"/>
-</div>
+<div id="content" style="float:top;width:100%"/></div>
 </body>
 
 </html>

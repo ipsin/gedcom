@@ -4,6 +4,7 @@
 var GEDCOM = (function () {
   var my = {};
   var stylesheet;
+  var loadTime;
 
   // Create a new Element based on a parsed line of the GED file.
   function createElement(doc, level, name, value) {
@@ -90,19 +91,27 @@ var GEDCOM = (function () {
     return doc;
   };
 
-  // my.convertToXml = function(gedcom_data) {
-    // var document.implementation.createDocument(null, "GEDCOM");
-  // };
-
-  my.transformCallback = function(targetId) {
+  my.transformCallback = function(targetId, statusId) {
     var func = function(file_content) {
       if (stylesheet) {
+        loadTime = Date.now();
         var gedDoc = my.readGedFromFileContents(file_content);
-        var docFragment = stylesheet.transformToFragment(gedDoc, document);
         var targetElem = document.getElementById(targetId);
+        var statusElem = document.getElementById(statusId);
+
+        statusElem.innerHTML = 'Reading file (elapsed time ' +
+            ((Date.now() - loadTime) / 1000) + ' seconds)';
+        var docFragment = stylesheet.transformToFragment(gedDoc, document);
+        var transTime = Date.now();
+        statusElem.innerHTML = 'Transforming (elapsed time ' +
+            ((Date.now() - loadTime) / 1000) + ' seconds)';
         targetElem.innerHTML = '';
-        alert(docFragment);
+        statusElem.innerHTML = 'Writing result (elapsed time ' +
+            ((Date.now() - loadTime) / 1000) + ' seconds)';
         targetElem.appendChild(docFragment);
+        statusElem.innerHTML = 'Done after ' +
+            ((Date.now() - loadTime) / 1000) + ' seconds, transform took ' +
+            ((Date.now() - transTime) / 1000) + ' seconds';
       }
     };
     return func;
