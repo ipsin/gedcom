@@ -9,7 +9,7 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
   <!-- This is how a person is rendered by default. -->
   <xsl:template match="INDI">
-    <li>Name: <xsl:value-of select="NAME/VAL"/>
+    <li>Name: <xsl:value-of select="NAME[1]/VAL"/>
       <xsl:if test="BIRT/DATE != '' or DEAT/DATE != ''">
       (<xsl:if test="BIRT/DATE">Born <xsl:value-of select="BIRT/DATE"/></xsl:if>
        <xsl:if test="DEAT/DATE"><xsl:if test="BIRT/DATE">, </xsl:if>Died <xsl:value-of select="DEAT/DATE"/></xsl:if>)
@@ -21,15 +21,15 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
   <xsl:template match="FAM">
     <li>
       <xsl:if test="WIFE">
-        Wife: <xsl:value-of select="key('person',WIFE/@ref)/NAME/VAL"/>
+        Wife: <xsl:value-of select="key('person',WIFE/@ref)/NAME[1]/VAL"/>
         <br/>
       </xsl:if>
       <xsl:if test="HUSB">
-        Husband: <xsl:value-of select="key('person',HUSB/@ref)/NAME/VAL"/>
+        Husband: <xsl:value-of select="key('person',HUSB/@ref)/NAME[1]/VAL"/>
         <br/>
       </xsl:if>
       <xsl:for-each select="CHIL">
-        Child: <xsl:value-of select="key('person',@ref)/NAME/VAL"/>
+        Child: <xsl:value-of select="key('person',@ref)/NAME[1]/VAL"/>
         <br/>
       </xsl:for-each>
     </li>
