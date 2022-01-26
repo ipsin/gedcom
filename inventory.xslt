@@ -6,13 +6,31 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
   <xsl:output method="html" encoding="ISO-8859-1"/>
 
   <xsl:key name="person" match="GEDCOM/INDI" use="@id"/>
+  <xsl:key name="family" match="GEDCOM/FAM" use="@id"/>
 
   <!-- This is how a person is rendered by default. -->
   <xsl:template match="INDI">
     <li>Name: <xsl:value-of select="NAME[1]/VAL"/>
       <xsl:if test="BIRT/DATE != '' or DEAT/DATE != ''">
-      (<xsl:if test="BIRT/DATE">Born <xsl:value-of select="BIRT/DATE"/></xsl:if>
-       <xsl:if test="DEAT/DATE"><xsl:if test="BIRT/DATE">, </xsl:if>Died <xsl:value-of select="DEAT/DATE"/></xsl:if>)
+        <br/>
+        (<xsl:if test="BIRT/DATE">Born <xsl:value-of select="BIRT/DATE"/>
+           <xsl:if test="BIRT/PLAC">
+              in <xsl:value-of select="BIRT/PLAC"/>
+           </xsl:if>
+         </xsl:if>
+         <xsl:if test="DEAT/DATE">
+           <xsl:if test="BIRT/DATE"> -</xsl:if>
+           Died <xsl:value-of select="DEAT/DATE"/>
+           <xsl:if test="DEAT/PLAC">
+              at <xsl:value-of select="DEAT/PLAC"/>
+           </xsl:if>
+         </xsl:if>)
+      </xsl:if>
+      <xsl:if test="key('family',FAMS/@ref)/HUSB/@ref = @id and key('family',FAMS/@ref)/WIFE/@ref">
+         <br/>Wife: <xsl:value-of select="key('person', key('family',FAMS/@ref)/WIFE/@ref)/NAME[1]/VAL"/>
+      </xsl:if>
+      <xsl:if test="key('family',FAMS/@ref)/WIFE/@ref = @id and key('family',FAMS/@ref)/HUSB/@ref">
+         <br/>Husband: <xsl:value-of select="key('person', key('family',FAMS/@ref)/HUSB/@ref)/NAME[1]/VAL"/>
       </xsl:if>
     </li>
   </xsl:template>
